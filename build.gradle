@@ -37,6 +37,10 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
+	// https://mvnrepository.com/artifact/javax.servlet/servlet-api
+	providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
+
 }
 
 dependencyManagement {
@@ -49,4 +53,24 @@ test {
 	useJUnitPlatform()
 }
 
+configurations.all {
+	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+}
+
+appengine {
+	deploy {   // deploy configuration
+		version = "v0-00-01"     //app engine project version
+		stopPreviousVersion = true  // default - stop the current version
+		promote = true              // default - & make this the current version
+		//"vrtual-media-api-dev-v2"
+		//"vrtual-media-api-staging-v2"
+		//"vrtual-media-api-v2"
+		projectId = "bogdanplayground01"
+	}
+
+	run {
+		//If you plan to debug uncomment the jvmFlag.
+		//jvmFlags = ['-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005']
+	}
+}
 
