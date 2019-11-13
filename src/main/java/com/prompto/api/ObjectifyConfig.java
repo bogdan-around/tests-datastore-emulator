@@ -43,7 +43,7 @@ public class ObjectifyConfig {
                 // local without memcache (gradle bootRun)
                 ObjectifyService.init(new ObjectifyFactory(
                         DatastoreOptions.newBuilder()
-                                .setHost("http://localhost:8484")
+                                .setHost("http://localhost:8081")
                                 .setProjectId("bogdanplayground01")
                                 .build()
                                 .getService()
@@ -51,7 +51,7 @@ public class ObjectifyConfig {
             } else if ("local".equals(System.getenv("SPRING_PROFILES_ACTIVE"))) {
                 // local with memcache (gradle appengineRun)
                 ObjectifyService.init(new ObjectifyFactory(
-                        DatastoreOptions.newBuilder().setHost("http://localhost:8484")
+                        DatastoreOptions.newBuilder().setHost("http://localhost:8081")
                                 .setProjectId("bogdanplayground01")
                                 .build().getService(),
                         new AppEngineMemcacheClientService()

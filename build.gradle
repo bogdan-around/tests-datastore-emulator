@@ -77,9 +77,7 @@ appengine {
         version = "v0-00-01"     //app engine project version
         stopPreviousVersion = true  // default - stop the current version
         promote = true              // default - & make this the current version
-        //"vrtual-media-api-dev-v2"
-        //"vrtual-media-api-staging-v2"
-        //"vrtual-media-api-v2"
+      
         projectId = "bogdanplayground01"
     }
 
