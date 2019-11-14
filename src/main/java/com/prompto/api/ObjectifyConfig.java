@@ -2,6 +2,7 @@ package com.prompto.api;
 
 
 import com.google.cloud.datastore.DatastoreOptions;
+import com.google.common.base.Strings;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyFilter;
 import com.googlecode.objectify.ObjectifyService;
@@ -37,43 +38,37 @@ public class ObjectifyConfig {
     @WebListener
     public class ObjectifyListener implements ServletContextListener {
 
-        /*@Override
+        @Override
         public void contextInitialized(ServletContextEvent sce) {
-            if (System.getenv("SPRING_PROFILES_ACTIVE") == null) {
-                // local without memcache (gradle bootRun)
-                ObjectifyService.init(new ObjectifyFactory(
-                        DatastoreOptions.newBuilder()
-                                .setHost("http://localhost:8081")
-                                .setProjectId("bogdanplayground01")
-                                .build()
-                                .getService()
-                ));
-            } else if ("local".equals(System.getenv("SPRING_PROFILES_ACTIVE"))) {
-                // local with memcache (gradle appengineRun)
-                ObjectifyService.init(new ObjectifyFactory(
-                        DatastoreOptions.newBuilder().setHost("http://localhost:8081")
-                                .setProjectId("bogdanplayground01")
-                                .build().getService(),
-                        new AppEngineMemcacheClientService()
-                ));
-            } else {
+            String environment = System.getenv("SPRING_PROFILES_ACTIVE");
+            if (Strings.isNullOrEmpty(environment)) {
                 // on appengine
                 ObjectifyService.init(new ObjectifyFactory(
                         DatastoreOptions.getDefaultInstance().getService(),
                         new AppEngineMemcacheClientService()
                 ));
+            } else if ("localhost-no-memcache".equals(environment)) {
+                //local without memcache gradle appengineRun
+                ObjectifyService.init(new ObjectifyFactory(
+                        DatastoreOptions.newBuilder()
+                                .setHost("http://localhost:8484")
+                                .setProjectId("bogdanplayground01")
+                                .build()
+                                .getService()
+                ));
+            } else if ("localhost-memcache".equals(environment)) {
+                // local with memcache (gradle appengineRun)
+                ObjectifyService.init(new ObjectifyFactory(
+                        DatastoreOptions.newBuilder()
+                                .setHost("http://localhost:8484")
+                                .setProjectId("bogdanplayground01")
+                                .build()
+                                .getService(),
+                        new AppEngineMemcacheClientService()
+                ));
+            } else {
+                throw new IllegalStateException("No valid environment set");
             }
-
-            ObjectifyService.register(Item.class);
-        }*/
-
-        @Override
-        public void contextInitialized(ServletContextEvent sce) {
-            ObjectifyService.init(new ObjectifyFactory(
-                    DatastoreOptions.getDefaultInstance().getService(),
-                    new AppEngineMemcacheClientService()
-            ));
-
             ObjectifyService.register(Item.class);
         }
 
